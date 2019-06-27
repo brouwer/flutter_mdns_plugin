@@ -71,7 +71,7 @@ class DiscoveryCallbacks{
 }
 
 class FlutterMdnsPlugin {
-  static const String NAMESPACE = "eu.sndr.mdns";
+  static const String NAMESPACE = "pro.brouwer.mdns";
 
   static const MethodChannel _channel =
   const MethodChannel('flutter_mdns_plugin');

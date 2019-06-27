@@ -1,4 +1,4 @@
-package eu.sndr.fluttermdnspluginexample;
+package pro.brouwer.fluttermdnspluginexample;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

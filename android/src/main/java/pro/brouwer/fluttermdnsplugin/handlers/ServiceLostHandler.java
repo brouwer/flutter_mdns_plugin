@@ -1,10 +1,12 @@
-package eu.sndr.fluttermdnsplugin.handlers;
+package pro.brouwer.fluttermdnsplugin.handlers;
 
+import android.os.Handler;
 import java.util.Map;
 
 import io.flutter.plugin.common.EventChannel;
 
 public class ServiceLostHandler implements EventChannel.StreamHandler {
+    final private Handler mainHandler = new Handler();
 
     EventChannel.EventSink sink;
     @Override
@@ -17,7 +19,12 @@ public class ServiceLostHandler implements EventChannel.StreamHandler {
 
     }
 
-    public void onServiceLost(Map<String, Object> serviceInfoMap){
-        sink.success(serviceInfoMap);
+    public void onServiceLost(final Map<String, Object> serviceInfoMap){
+      mainHandler.post(new Runnable() {
+        @Override
+        public void run() {
+          sink.success(serviceInfoMap);
+        }
+      });
     }
 }

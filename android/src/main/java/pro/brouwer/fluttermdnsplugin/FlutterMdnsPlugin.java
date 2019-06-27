@@ -1,20 +1,21 @@
-package eu.sndr.fluttermdnsplugin;
+package pro.brouwer.fluttermdnsplugin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
+import android.os.Handler;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Collections;
 
-import eu.sndr.fluttermdnsplugin.handlers.DiscoveryRunningHandler;
-import eu.sndr.fluttermdnsplugin.handlers.ServiceDiscoveredHandler;
-import eu.sndr.fluttermdnsplugin.handlers.ServiceResolvedHandler;
-import eu.sndr.fluttermdnsplugin.handlers.ServiceLostHandler;
+import pro.brouwer.fluttermdnsplugin.handlers.DiscoveryRunningHandler;
+import pro.brouwer.fluttermdnsplugin.handlers.ServiceDiscoveredHandler;
+import pro.brouwer.fluttermdnsplugin.handlers.ServiceResolvedHandler;
+import pro.brouwer.fluttermdnsplugin.handlers.ServiceLostHandler;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -27,10 +28,12 @@ import static android.content.ContentValues.TAG;
 /** FlutterMdnsPlugin */
 public class FlutterMdnsPlugin implements MethodCallHandler {
 
-  private final static String NAMESPACE = "eu.sndr.mdns";
+  private final static String NAMESPACE = "pro.brouwer.mdns";
 
   private NsdManager mNsdManager;
   private NsdManager.DiscoveryListener mDiscoveryListener;
+
+  final private Handler mainHandler = new Handler();
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
@@ -68,19 +71,34 @@ public class FlutterMdnsPlugin implements MethodCallHandler {
   private ServiceLostHandler mLostHandler;
 
   @Override
-  public void onMethodCall(MethodCall call, Result result) {
+  public void onMethodCall(MethodCall call, final Result result) {
 
     switch (call.method) {
       case "startDiscovery":
         startDiscovery((String) call.argument("serviceType"));
-        result.success(null);
+        mainHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            result.success(null);
+          }
+        });
         break;
       case "stopDiscovery" :
         stopDiscovery();
-        result.success(null);
+        mainHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            result.success(null);
+          }
+        });
         break;
       default:
-        result.notImplemented();
+        mainHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            result.notImplemented();
+          }
+        });
         break;
     }
 
