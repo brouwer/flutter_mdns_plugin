@@ -156,7 +156,7 @@
     aNetService.delegate = self;
     [self.services addObject:aNetService];
 
-    [aNetService resolve];
+    [aNetService resolveWithTimeout:0.0];
 
     [self.serviceDiscoveredHandler onServiceDiscovered:
         [self serviceToDictionary:aNetService]
