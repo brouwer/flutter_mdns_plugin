@@ -2,6 +2,8 @@ package pro.brouwer.fluttermdnsplugin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.MulticastLock;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
@@ -30,6 +32,8 @@ public class FlutterMdnsPlugin implements MethodCallHandler {
 
   private final static String NAMESPACE = "pro.brouwer.mdns";
 
+  private WifiManager mWifiManager;
+  private MulticastLock mMulticastLock;
   private NsdManager mNsdManager;
   private NsdManager.DiscoveryListener mDiscoveryListener;
 
@@ -106,6 +110,11 @@ public class FlutterMdnsPlugin implements MethodCallHandler {
 
   @SuppressLint("NewApi")
   private void startDiscovery(String serviceName) {
+
+    mWifiManager = (WifiManager)mRegistrar.activity().getSystemService(Context.WIFI_SERVICE);
+    mMulticastLock = mWifiManager.createMulticastLock("multicastLock");
+    mMulticastLock.setReferenceCounted(true);
+    mMulticastLock.acquire();
 
     mNsdManager = (NsdManager)mRegistrar.activity().getSystemService(Context.NSD_SERVICE);
 
@@ -184,6 +193,11 @@ public class FlutterMdnsPlugin implements MethodCallHandler {
 
     if (mNsdManager != null && mDiscoveryListener != null) {
       mNsdManager.stopServiceDiscovery(mDiscoveryListener);
+    }
+
+    if (mMulticastLock != null) {
+      mMulticastLock.release();
+      mMulticastLock = null;
     }
 
   }
