@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<String> messageLog = <String>[];
-  late DiscoveryCallbacks discoveryCallbacks;
+  DiscoveryCallbacks discoveryCallbacks;
   @override
   initState() {
     super.initState();
