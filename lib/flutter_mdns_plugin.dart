@@ -2,16 +2,17 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 
 class ServiceInfo{
-  Map<String, Uint8List> attr;
-  String name;
-  String type;
-  String hostName;
-  String address;
-  int port;
-  ServiceInfo(this.attr, this.name, this.type, this.hostName, this.address, this.port);
+  final Map<String, Uint8List>? attr;
+  final String name;
+  final String type;
+  final String hostName;
+  final String address;
+  final int port;
+
+  ServiceInfo({this.attr, required this.name, required this.type, required this.hostName, required this.address, required this.port});
 
   static ServiceInfo fromMap(Map fromChannel){
-    Map<String, Uint8List> attr;
+    Map<String, Uint8List>? attr;
     String name = "";
     String type = "";
     String hostName = "";
@@ -42,7 +43,7 @@ class ServiceInfo{
       port = fromChannel["port"];
     }
 
-    return new ServiceInfo(attr, name, type, hostName, address, port);
+    return new ServiceInfo(attr: attr, name: name, type: type, hostName: hostName, address: address, port: port);
   }
 
   @override
@@ -56,11 +57,12 @@ typedef void IntCallback (int data);
 typedef void VoidCallback();
 
 class DiscoveryCallbacks{
-  VoidCallback onDiscoveryStarted;
-  VoidCallback onDiscoveryStopped;
-  ServiceInfoCallback onDiscovered;
-  ServiceInfoCallback onResolved;
-  ServiceInfoCallback onLost;
+  VoidCallback? onDiscoveryStarted;
+  VoidCallback? onDiscoveryStopped;
+  ServiceInfoCallback? onDiscovered;
+  ServiceInfoCallback? onResolved;
+  ServiceInfoCallback? onLost;
+
   DiscoveryCallbacks({
     this.onDiscoveryStarted,
     this.onDiscoveryStopped,
@@ -88,7 +90,7 @@ class FlutterMdnsPlugin {
   final EventChannel _discoveryRunningChannel =
   const EventChannel("$NAMESPACE/running");
 
-  DiscoveryCallbacks discoveryCallbacks;
+  DiscoveryCallbacks? discoveryCallbacks;
 
   FlutterMdnsPlugin({this.discoveryCallbacks}){
 
@@ -96,25 +98,31 @@ class FlutterMdnsPlugin {
       //Configure all the discovery related callbacks and event channels
       _serviceResolvedChannel.receiveBroadcastStream().listen((data) {
         print("Service resolved ${data.toString()}");
-        discoveryCallbacks.onResolved(ServiceInfo.fromMap(data));
+        if (discoveryCallbacks!.onResolved != null) {
+          discoveryCallbacks!.onResolved!(ServiceInfo.fromMap(data));
+        }
       });
 
       _serviceDiscoveredChannel.receiveBroadcastStream().listen((data) {
         print("Service discovered ${data.toString()}");
-        discoveryCallbacks.onDiscovered(ServiceInfo.fromMap(data));
+        if (discoveryCallbacks!.onDiscovered != null) {
+          discoveryCallbacks!.onDiscovered!(ServiceInfo.fromMap(data));
+        }
       });
 
       _serviceLostChannel.receiveBroadcastStream().listen((data) {
         print("Service lost ${data.toString()}");
-        discoveryCallbacks.onLost(ServiceInfo.fromMap(data));
+        if (discoveryCallbacks!.onLost != null) {
+          discoveryCallbacks!.onLost!(ServiceInfo.fromMap(data));
+        }
       });
 
       _discoveryRunningChannel.receiveBroadcastStream().listen((running) {
         print("Discovery Running? $running");
-        if (running && discoveryCallbacks.onDiscoveryStarted != null) {
-          discoveryCallbacks.onDiscoveryStarted();
-        } else if (discoveryCallbacks.onDiscoveryStopped != null) {
-          discoveryCallbacks.onDiscoveryStopped();
+        if (running && discoveryCallbacks!.onDiscoveryStarted != null) {
+          discoveryCallbacks!.onDiscoveryStarted!();
+        } else if (discoveryCallbacks!.onDiscoveryStopped != null) {
+          discoveryCallbacks!.onDiscoveryStopped!();
         }
       });
     }
