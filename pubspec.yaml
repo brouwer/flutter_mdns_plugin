@@ -14,5 +14,5 @@ dependencies:
 
 flutter:
   plugin:
-    androidPackage: pro.brouwer.fluttermdnsplugin
+    androidPackage: com.estiasoftware.fluttermdnsplugin
     pluginClass: FlutterMdnsPlugin

@@ -1,4 +1,4 @@
-package pro.brouwer.fluttermdnspluginexample;
+package com.estiasoftware.fluttermdnspluginexample;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

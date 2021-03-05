@@ -1,4 +1,4 @@
-package pro.brouwer.fluttermdnsplugin.handlers;
+package com.estiasoftware.fluttermdnsplugin.handlers;
 
 import android.os.Handler;
 import java.util.Map;

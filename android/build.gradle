@@ -1,4 +1,4 @@
-group 'pro.brouwer.fluttermdnsplugin'
+group 'com.estiasoftware.fluttermdnsplugin'
 version '1.0-SNAPSHOT'
 
 buildscript {

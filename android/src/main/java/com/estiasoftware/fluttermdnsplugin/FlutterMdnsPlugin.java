@@ -1,4 +1,4 @@
-package pro.brouwer.fluttermdnsplugin;
+package com.estiasoftware.fluttermdnsplugin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,10 +14,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Collections;
 
-import pro.brouwer.fluttermdnsplugin.handlers.DiscoveryRunningHandler;
-import pro.brouwer.fluttermdnsplugin.handlers.ServiceDiscoveredHandler;
-import pro.brouwer.fluttermdnsplugin.handlers.ServiceResolvedHandler;
-import pro.brouwer.fluttermdnsplugin.handlers.ServiceLostHandler;
+import com.estiasoftware.fluttermdnsplugin.handlers.DiscoveryRunningHandler;
+import com.estiasoftware.fluttermdnsplugin.handlers.ServiceDiscoveredHandler;
+import com.estiasoftware.fluttermdnsplugin.handlers.ServiceResolvedHandler;
+import com.estiasoftware.fluttermdnsplugin.handlers.ServiceLostHandler;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -30,7 +30,7 @@ import static android.content.ContentValues.TAG;
 /** FlutterMdnsPlugin */
 public class FlutterMdnsPlugin implements MethodCallHandler {
 
-  private final static String NAMESPACE = "pro.brouwer.mdns";
+  private final static String NAMESPACE = "com.estiasoftware.mdns";
 
   private WifiManager mWifiManager;
   private MulticastLock mMulticastLock;

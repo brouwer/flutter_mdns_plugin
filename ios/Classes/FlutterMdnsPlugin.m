@@ -27,28 +27,28 @@
   FlutterMdnsPlugin* instance = [[FlutterMdnsPlugin alloc] init];
 
     FlutterEventChannel *serviceDiscoveryChannel = [[FlutterEventChannel alloc]
-            initWithName:@"pro.brouwer.mdns/discovered"
+            initWithName:@"com.estiasoftware.mdns/discovered"
          binaryMessenger:registrar.messenger
                    codec:[FlutterStandardMethodCodec sharedInstance]];
     instance.serviceDiscoveredHandler = [[ServiceDiscoveredHandler alloc] init];
     [serviceDiscoveryChannel setStreamHandler:instance.serviceDiscoveredHandler];
 
     FlutterEventChannel *serviceResolved = [[FlutterEventChannel alloc]
-            initWithName:@"pro.brouwer.mdns/resolved"
+            initWithName:@"com.estiasoftware.mdns/resolved"
          binaryMessenger:registrar.messenger
                    codec:[FlutterStandardMethodCodec sharedInstance]];
     instance.serviceResolvedHandler = [[ServiceResolvedHandler alloc] init];
     [serviceResolved setStreamHandler:instance.serviceResolvedHandler];
 
     FlutterEventChannel *serviceLost = [[FlutterEventChannel alloc]
-            initWithName:@"pro.brouwer.mdns/lost"
+            initWithName:@"com.estiasoftware.mdns/lost"
          binaryMessenger:registrar.messenger
                    codec:[FlutterStandardMethodCodec sharedInstance]];
     instance.serviceLostHandler = [[ServiceLostHandler alloc] init];
     [serviceLost setStreamHandler:instance.serviceLostHandler];
 
     FlutterEventChannel *discoveryRunning = [[FlutterEventChannel alloc]
-            initWithName:@"pro.brouwer.mdns/running"
+            initWithName:@"com.estiasoftware.mdns/running"
          binaryMessenger:registrar.messenger
                    codec:[FlutterStandardMethodCodec sharedInstance]];
     instance.discoveryRunningHandler = [[DiscoveryRunningHandler alloc] init];
